@@ -55,6 +55,9 @@ services:
       timeout: 5s
       retries: 5
       start_period: 20s
+      
+    networks:
+      - bridge
 
   openclaw-cli:
     image: ${OPENCLAW_IMAGE:-openclaw:local}
@@ -82,3 +85,7 @@ services:
     entrypoint: ["node", "dist/index.js"]
     depends_on:
       - openclaw-gateway
+
+networks:
+  bridge:
+    external: true
