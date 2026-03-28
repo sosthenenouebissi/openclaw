@@ -1,6 +1,8 @@
 services:
   openclaw-gateway:
     image: ${OPENCLAW_IMAGE:-openclaw:local}
+    networks:
+      - docker_gwbridge
     environment:
       HOME: /home/node
       TERM: xterm-256color
@@ -55,13 +57,12 @@ services:
       timeout: 5s
       retries: 5
       start_period: 20s
-      
-    networks:
-      - bridge
 
   openclaw-cli:
     image: ${OPENCLAW_IMAGE:-openclaw:local}
     network_mode: "service:openclaw-gateway"
+    networks:
+      - docker_gwbridge
     cap_drop:
       - NET_RAW
       - NET_ADMIN
@@ -87,5 +88,5 @@ services:
       - openclaw-gateway
 
 networks:
-  bridge:
+  docker_gwbridge:
     external: true
